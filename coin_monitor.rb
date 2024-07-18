@@ -43,7 +43,7 @@ class CoinMonitor
 
   def monitor_network
     loop do
-      data = @network_service.get_network_hashrate
+      data = @network_service.get_network_data
       next unless data
 
       hashrate = get_hashrate(data)
@@ -72,8 +72,8 @@ class CoinMonitor
         send_alert(message)
         puts message       
       end
-
-      puts "#{format_time_br(Time.now)} - O hashrate da rede está em #{hashrate} TH/s \na dificuldade está em #{difficulty} \no tempo médio por bloco é #{avgBlockTime} segundos. \nPróxima verificação em 5min: #{format_time_br(Time.now + 300)}"
+      #debug only
+      #puts "#{format_time_br(Time.now)} - O hashrate da rede está em #{hashrate} TH/s \na dificuldade está em #{difficulty} \no tempo médio por bloco é #{avgBlockTime} segundos. \nPróxima verificação em 5min: #{format_time_br(Time.now + 300)}"
 
       sleep 300 
     end

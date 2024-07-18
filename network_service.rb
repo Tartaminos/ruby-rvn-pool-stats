@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 
 class NetworkService
-  def get_network_hashrate
+  def get_network_data
     url = URI("https://rvn.2miners.com/api/stats")
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
