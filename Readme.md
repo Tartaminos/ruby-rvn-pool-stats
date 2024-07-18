@@ -1,30 +1,37 @@
 # CoinMonitor
 
-CoinMonitor é uma aplicação Ruby que monitora o hashrate e a dificuldade de mineração de uma rede blockchain (Ravencoin) e envia alertas via WhatsApp usando a API do WhatsApp Business.
+CoinMonitor é uma aplicação Ruby que monitora o hashrate e a dificuldade de mineração de uma rede blockchain Ravencoin, envia alertas via Telegram.
 
 ## Configuração
 
 ### 1. Clone o Repositório
-
-´´´ bash
+```
+bash
 git clone https://github.com/seu-usuario/coin_monitor.git
-cd coin_monitor´´´
+cd coin_monitor
+```
 
 ### 2. Instale as Dependências
-``` bundle install ´´´
+``` bundle install ```
 
-### 3. Configure as Variáveis de Ambiente
+### 3. Crie um bot do telegram
+
+Você deve possuir um bot do telegram, crie um através do botfather e inicie um conversa.
+Usando o token informado pelo botfather acesse o seguinte link: ``` https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates ```
+No JSON localize a chave ``` {chat: {id: 123}} ```  e use-a na variavel de ambiente.
+
+### 4. Configure as Variáveis de Ambiente
 Crie um arquivo .env na raiz do projeto e adicione as seguintes variáveis:
 
-´´´ MY_PHONE_NUMBER=YOUR_PHONE_NUMBER
-ACCESS_TOKEN=YOUR_ACCESS_TOKEN
-PHONE_NUMBER_ID=YOUR_PHONE_NUMBER_ID
-YOUR_PHONE_NUMBER=YOUR_PHONE_NUMBER ´´´
+```
+TELEGRAM_BOT_TOKEN="<TELEGRAM_BOT_TOKEN>"
+TELEGRAM_CHAT_ID=<TELEGRAM_CHAT_ID> 
+```
 
-Substitua YOUR_PHONE_NUMBER, YOUR_ACCESS_TOKEN, YOUR_PHONE_NUMBER_ID, YOUR_TWILIO_ACCOUNT_SID, YOUR_TWILIO_AUTH_TOKEN, whatsapp:+14155238886 e whatsapp:+5519982828418 pelos valores apropriados.
+Substitua TELEGRAM_BOT_TOKEN e TELEGRAM_CHAT_ID pelos valores apropriados.
 
-### Execução
+## Execução
 
 Execute o script coin_monitor.rb para iniciar o monitoramento:
 
-´´´ ruby coin_monitor.rb ´´´
+``` ruby coin_monitor.rb ```

@@ -1,6 +1,6 @@
 require 'rest-client'
 require 'json'
-require 'dotenv/load' # Carrega as variáveis de ambiente do arquivo .env
+require 'dotenv/load'
 
 class TelegramService
   attr_accessor :bot_token, :chat_id

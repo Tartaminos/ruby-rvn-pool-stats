@@ -1,7 +1,6 @@
-# coin_monitor.rb
 require 'bundler/setup'
 require 'dotenv/load'
-require_relative 'whats_app_service'
+
 require_relative 'telegram_service'
 require_relative 'network_service'
 
@@ -11,7 +10,6 @@ class CoinMonitor
   def initialize
     @phone_number = ENV['SEND_TO_PHONE_NUMBER']
     @network_service = NetworkService.new
-    @whatsapp_service = WhatsAppService.new
     @telegram_service = TelegramService.new
   end
 
@@ -30,7 +28,6 @@ class CoinMonitor
   end
 
   def send_alert(message)
-    #@whatsapp_service.send_message(@phone_number, message) not setup
     @telegram_service.send_message(message)
   end
 
@@ -73,18 +70,16 @@ class CoinMonitor
         \n- Tempo médio por bloco: #{avgBlockTime} segundos 
         \n\u{1F44E} Não indicado para mineração \u{1F44E}"
         send_alert(message)
-        puts message
-      else
-        puts "#{format_time_br(Time.now)} - O hashrate da rede está em #{hashrate} TH/s \na dificuldade está em #{difficulty} \no tempo médio por bloco é #{avgBlockTime} segundos. \nPróxima verificação em 5min: #{format_time_br(Time.now + 300)}"
+        puts message       
       end
+
+      puts "#{format_time_br(Time.now)} - O hashrate da rede está em #{hashrate} TH/s \na dificuldade está em #{difficulty} \no tempo médio por bloco é #{avgBlockTime} segundos. \nPróxima verificação em 5min: #{format_time_br(Time.now + 300)}"
 
       sleep 300 
     end
   end
 end
 
-# Instanciar a classe CoinMonitor
 monitor = CoinMonitor.new
 
-# Iniciar o monitoramento
 monitor.monitor_network
