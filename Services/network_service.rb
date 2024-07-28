@@ -2,8 +2,14 @@ require 'net/http'
 require 'json'
 
 class NetworkService
-  def get_network_data
-    url = URI("https://rvn.2miners.com/api/stats")
+  def get_network_data(coin)
+    case coin
+    when "raven"
+      url = URI("https://rvn.2miners.com/api/stats")
+    when "btc_cash"
+      url = URI("https://bch.2miners.com/api/stats")
+    end
+    
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
     request = Net::HTTP::Get.new(url)

@@ -1,82 +1,48 @@
 require 'bundler/setup'
 require 'dotenv/load'
 
-require_relative 'telegram_service'
-require_relative 'network_service'
+require_relative 'Services/network_service'
+require_relative 'Coins/raven_coin'
+require_relative 'Coins/btc_cash'
 
 class CoinMonitor
-  attr_accessor :network_service, :whatsapp_service, :telegram_service, :phone_number
+  attr_accessor :network_service, :telegram_service, :raven_coin, :btc_cash
 
   def initialize
-    @phone_number = ENV['SEND_TO_PHONE_NUMBER']
     @network_service = NetworkService.new
-    @telegram_service = TelegramService.new
+    @raven_coin = RavenCoin.new
+    @bitcoin_cash = BtcCash.new
   end
 
-  def get_hashrate(data)
-    hashrate = data['nodes'][0]['networkhashps'].to_f / 1_000_000_000_000.0 
-    hashrate.round(2)
+  def raven_coin_check
+
+    raven_data = @network_service.get_network_data("raven")
+
+    @raven_coin.check(raven_data)
+
   end
 
-  def get_difficulty(data)
-    difficulty = data['nodes'][0]['difficulty'].to_f / 10**3 
-    difficulty.round(2)
-  end
+  def btc_cash_check
 
-  def get_avgBlockTime(data)
-    avgBlockTime = data['nodes'][0]['avgBlockTime'].to_f
-  end
+    btc_cash_data = @network_service.get_network_data("btc_cash")
 
-  def send_alert(message)
-    @telegram_service.send_message(message)
-  end
+    @bitcoin_cash.check(btc_cash_data)
 
-  def format_time_br(time)
-    time.strftime("%d/%m/%Y %H:%M:%S")
-  end
-
-  def month_name
-    today = Date.today
-    first_day = Date.new(today.year, today.month, 1)
-    first_day.strftime("%B")
   end
 
   def monitor_network
-    loop do
-      data = @network_service.get_network_data
-      next unless data
+    loop do 
 
-      hashrate = get_hashrate(data)
-      difficulty = get_difficulty(data)
-      avgBlockTime = get_avgBlockTime(data)
+      raven_coin_check()
 
-      File.open("hashrate_log_#{month_name}.txt", 'a') do |file|
-        file.puts("Data: #{format_time_br(Time.now)} - Hashrate: #{hashrate} TH/s - Difficulty: #{difficulty} - Average Block Time: #{avgBlockTime} segundos")
-      end
+      sleep 1
 
-      if hashrate < 5.0 || (difficulty < 72 && avgBlockTime <= 58)
-        message = "\u{1F6A8} \u{1F44D} \u{1F680} Alerta!! \u{1F680} \u{1F44D} \u{1F6A8}
-        \n- Hashrate da rede: #{hashrate} TH/s 
-        \n- Difficulty: #{difficulty}K
-        \n- Tempo médio por bloco: #{avgBlockTime} segundos
-        \n\u26CF \u26CF Bom para mineração! \u26CF \u26CF "
-        send_alert(message)
-        puts message
+      btc_cash_check()
 
-      elsif hashrate > 6.0 && difficulty > 78
-        message = "\u{1F6A8} \u{1F44E} Alerta!! \u{1F44E} \u{1F6A8}
-        \n- Hashrate da rede: #{hashrate} TH/s 
-        \n- Difficulty: #{difficulty}K
-        \n- Tempo médio por bloco: #{avgBlockTime} segundos 
-        \n\u{1F44E} Não indicado para mineração \u{1F44E}"
-        send_alert(message)
-        puts message       
-      end
-      #debug only
-      #puts "#{format_time_br(Time.now)} - O hashrate da rede está em #{hashrate} TH/s \na dificuldade está em #{difficulty} \no tempo médio por bloco é #{avgBlockTime} segundos. \nPróxima verificação em 5min: #{format_time_br(Time.now + 300)}"
+      sleep 300
 
-      sleep 300 
     end
+
   end
 end
 
