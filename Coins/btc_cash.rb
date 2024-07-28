@@ -34,7 +34,7 @@ class BtcCash
         #debug only
         #puts " \n ----- BITCOIN CASH ----- #{Time.now.strftime("%d/%m/%Y %H:%M:%S")} - O hashrate está em #{hashrate} EH/s \na dificuldade está em #{difficulty}G \no tempo médio por bloco é #{avgBlockTime} minutos. \nPróxima verificação em 5min"
 
-        File.open("logs/btc_cash_hashrate_log_#{month_name}.txt", 'a') do |file|
+        File.open("../logs/btc_cash_hashrate_log_#{month_name}.txt", 'a') do |file|
             file.puts("Data: #{format_time_br(Time.now)} - Hashrate: #{hashrate} EH/s - Difficulty: #{difficulty} - Average Block Time: #{avgBlockTime} segundos")
         end
 
