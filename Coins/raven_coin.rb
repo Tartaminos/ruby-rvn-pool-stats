@@ -1,4 +1,5 @@
 require 'dotenv/load'
+require 'fileutils'
 
 require_relative '../Services/telegram_service'
 
