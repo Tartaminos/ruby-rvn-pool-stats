@@ -31,13 +31,11 @@ class BtcCash
         hashrate = get_hashrate(data)
         difficulty = get_difficulty(data)
         avgBlockTime = get_avgBlockTime(data)
-        dir_path = "/home/ubuntu/logs"
-        file_path = File.join(dir_path, "raven_hashrate_log_#{month_name}.txt")
 
         #debug only
         #puts " \n ----- BITCOIN CASH ----- #{Time.now.strftime("%d/%m/%Y %H:%M:%S")} - O hashrate está em #{hashrate} EH/s \na dificuldade está em #{difficulty}G \no tempo médio por bloco é #{avgBlockTime} minutos. \nPróxima verificação em 5min"
 
-        File.open(file_path, 'a') do |file|
+        File.open("../logs/btc_cash_hashrate_log_#{month_name}.txt", 'a') do |file|
             file.puts("Data: #{format_time_br(Time.now)} - Hashrate: #{hashrate} EH/s - Difficulty: #{difficulty} - Average Block Time: #{avgBlockTime} segundos")
         end
 
