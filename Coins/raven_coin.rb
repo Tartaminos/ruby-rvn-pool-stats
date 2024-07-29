@@ -44,7 +44,6 @@ class RavenCoin
             \n- Difficulty: #{difficulty}K
             \n- Average Block time: #{avgBlockTime}s"
             send_alert(message)
-            puts message
 
         elsif hashrate > 6.0 && difficulty > 78
             message = "\u{1F6A8} \u{1F44E} Alert!! \u{1F44E} \u{1F6A8}
@@ -52,8 +51,7 @@ class RavenCoin
             \n- Hashrate: #{hashrate} TH/s 
             \n- Difficulty: #{difficulty}K
             \n- Average Block time: #{avgBlockTime}s"
-            send_alert(message)
-            puts message       
+            send_alert(message)  
         end
     end
 

@@ -46,7 +46,6 @@ class BtcCash
            \n- Difficulty: #{difficulty}G
            \n- Average Block time: #{avgBlockTime} minutes"
            send_alert(message)
-           puts message
 
        elsif hashrate > 4.0 && difficulty > 460
            message = "\u{1F6A8} \u{1F44E} Alert!! \u{1F44E} \u{1F6A8}
@@ -55,7 +54,6 @@ class BtcCash
            \n- Difficulty: #{difficulty}G
            \n- Average Block time: #{avgBlockTime} minutes"
            send_alert(message)
-           puts message       
        end
     end
 
