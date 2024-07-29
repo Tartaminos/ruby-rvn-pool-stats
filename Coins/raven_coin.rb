@@ -29,11 +29,13 @@ class RavenCoin
         hashrate = get_hashrate(data)
         difficulty = get_difficulty(data)
         avgBlockTime = get_avgBlockTime(data)
+        dir_path = "/home/ubuntu/logs"
+        file_path = File.join(dir_path, "raven_hashrate_log_#{month_name}.txt")
 
         #debug only
         #puts "\n ----- RAVEN COIN -----  #{Time.now.strftime("%d/%m/%Y %H:%M:%S")} - O hashrate está em #{hashrate} TH/s \na dificuldade está em #{difficulty} \no tempo médio por bloco é #{avgBlockTime} segundos. \nPróxima verificação em 5min"
 
-        File.open("../logs/raven_hashrate_log_#{month_name}.txt", 'a') do |file|
+        File.open(file_path, 'a') do |file|
             file.puts("Data: #{format_time_br(Time.now)} - Hashrate: #{hashrate} TH/s - Difficulty: #{difficulty} - Average Block Time: #{avgBlockTime} segundos")
         end
 
