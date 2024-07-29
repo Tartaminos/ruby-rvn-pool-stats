@@ -33,7 +33,7 @@ class RavenCoin
         #debug only
         #puts "\n ----- RAVEN COIN -----  #{Time.now.strftime("%d/%m/%Y %H:%M:%S")} - O hashrate está em #{hashrate} TH/s \na dificuldade está em #{difficulty} \no tempo médio por bloco é #{avgBlockTime} segundos. \nPróxima verificação em 5min"
 
-        File.open("../logs/raven_hashrate_log_#{month_name}.txt", 'a') do |file|
+        File.open("raven_hashrate_log_#{month_name}.txt", 'a') do |file|
             file.puts("Data: #{format_time_br(Time.now)} - Hashrate: #{hashrate} TH/s - Difficulty: #{difficulty} - Average Block Time: #{avgBlockTime} segundos")
         end
 

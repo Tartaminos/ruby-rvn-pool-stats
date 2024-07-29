@@ -22,7 +22,7 @@ class TelegramService
       response = RestClient.post(url, message, { content_type: :json, accept: :json })
     rescue RestClient::ExceptionWithResponse => e
         puts e.response
-        File.open("logs/telegram_service_response_error_log.txt", 'a') do |file|
+        File.open("telegram_service_response_error_log.txt", 'a') do |file|
             file.puts("Data: #{Time.now} - #{e.response}")
         end
     end
